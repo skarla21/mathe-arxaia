@@ -1,0 +1,15 @@
+{
+  "nav.main": "Main",
+  "nav.notes": "Notes",
+  "nav.about": "About",
+  "nav.login": "Login",
+  "nav.profile": "Profile",
+  "home.welcome": "Welcome",
+  "home.info": "Information",
+  "home.grades": "Grades",
+  "home.instructions": "Instructions of Use",
+  "home.communication": "Communication",
+  "course.buy": "Buy Course",
+  "course.free": "Free",
+  "lesson.viewPdf": "View PDF"
+}

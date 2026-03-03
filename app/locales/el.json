@@ -1,0 +1,15 @@
+{
+  "nav.main": "Κύρια",
+  "nav.notes": "Σημειώσεις",
+  "nav.about": "Σχετικά",
+  "nav.login": "Σύνδεση",
+  "nav.profile": "Προφίλ",
+  "home.welcome": "Καλώς ήρθατε",
+  "home.info": "Πληροφορίες",
+  "home.grades": "Τάξεις",
+  "home.instructions": "Οδηγίες χρήσης",
+  "home.communication": "Επικοινωνία",
+  "course.buy": "Αγορά μαθήματος",
+  "course.free": "Δωρεάν",
+  "lesson.viewPdf": "Προβολή PDF"
+}

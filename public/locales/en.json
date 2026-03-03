@@ -1,0 +1,87 @@
+{
+  "nav.main": "Main",
+  "nav.notes": "Notes",
+  "nav.about": "About",
+  "nav.login": "Login",
+  "nav.profile": "Profile",
+
+  "brand.logo": "Mathe-Arxaia",
+
+  "home.section.welcome": "Welcome",
+  "home.section.information": "Information",
+  "home.section.grades": "Grades overview",
+  "home.section.instructions": "Instructions",
+  "home.section.more": "More content",
+  "home.section.communication": "Communication",
+
+  "home.welcome.title": "Welcome",
+  "home.welcome.lead": "Educational content for the Greek public school system.",
+
+  "home.info.title": "Information",
+  "home.info.body": "Browse by grade and subject. Free and paid courses are available.",
+
+  "home.grades.title": "Grades overview",
+  "home.grades.cardHint": "View subjects and courses",
+  "home.grades.empty": "No grades yet.",
+
+  "home.instructions.title": "Instructions of use",
+  "home.instructions.body": "Use the Notes menu to navigate by grade and subject. Create an account to purchase paid courses.",
+
+  "home.more.title": "More content from the educator",
+  "home.more.body": "Additional materials will appear here.",
+
+  "home.communication.title": "Communication",
+  "home.communication.lead": "Send a message via the form below (FormSubmit).",
+  "home.communication.emailLabel": "Email",
+  "home.communication.messageLabel": "Message",
+  "home.communication.submit": "Send",
+
+  "search.placeholder": "Search…",
+  "search.loading": "Searching…",
+  "search.type.course": "Course",
+  "search.type.lesson": "Lesson",
+
+  "notes.empty": "No grades yet.",
+
+  "course.buy": "Buy course",
+  "course.free": "Free",
+  "course.loading": "Loading…",
+  "course.price.free": "Free",
+  "course.price.paid": "€{price}",
+  "course.redirecting": "Redirecting…",
+  "course.lessons.title": "Lessons",
+  "course.lessons.empty": "No lessons yet.",
+
+  "lesson.viewPdf": "View PDF",
+  "lesson.loading": "Loading…",
+  "lesson.pdf.locked": "Purchase the course to view the PDF.",
+
+  "admin.title": "Admin",
+  "admin.overview.title": "Admin overview",
+  "admin.overview.body": "Manage grades, subjects, courses, lessons, and view purchases.",
+  "admin.grades.title": "Grades",
+  "admin.grades.loading": "Loading…",
+  "admin.grades.empty": "No grades. Create them via API or admin CRUD.",
+  "admin.subjects.title": "Subjects",
+  "admin.courses.title": "Courses",
+  "admin.lessons.title": "Lessons",
+  "admin.uploads.title": "Uploads",
+  "admin.uploads.body": "Upload PDFs to Supabase Storage and attach them to lessons.",
+  "admin.purchases.title": "Purchases",
+
+  "auth.login.title": "Login",
+  "auth.login.lead": "Auth.js integration: configure your provider.",
+  "auth.register.title": "Register",
+  "auth.register.lead": "Auth.js integration: configure your provider.",
+  "auth.back": "Back",
+
+  "dashboard.title": "Dashboard",
+  "dashboard.body": "Your purchased courses and progress.",
+
+  "profile.title": "Profile",
+  "profile.body": "Language and theme preferences.",
+
+  "about.title": "About",
+  "about.heading": "About",
+  "about.body": "About the educator and this platform."
+}

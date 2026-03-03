@@ -1,0 +1,87 @@
+{
+  "nav.main": "Κύρια",
+  "nav.notes": "Σημειώσεις",
+  "nav.about": "Σχετικά",
+  "nav.login": "Σύνδεση",
+  "nav.profile": "Προφίλ",
+
+  "brand.logo": "Μαθη-Αρχαία",
+
+  "home.section.welcome": "Καλώς ήρθατε",
+  "home.section.information": "Πληροφορίες",
+  "home.section.grades": "Επισκόπηση τάξεων",
+  "home.section.instructions": "Οδηγίες",
+  "home.section.more": "Περισσότερο υλικό",
+  "home.section.communication": "Επικοινωνία",
+
+  "home.welcome.title": "Καλώς ήρθατε",
+  "home.welcome.lead": "Εκπαιδευτικό υλικό για το ελληνικό δημόσιο σχολείο.",
+
+  "home.info.title": "Πληροφορίες",
+  "home.info.body": "Πλοηγηθείτε ανά τάξη και μάθημα. Διαθέσιμα δωρεάν και επί πληρωμή μαθήματα.",
+
+  "home.grades.title": "Επισκόπηση τάξεων",
+  "home.grades.cardHint": "Δείτε μαθήματα και ενότητες",
+  "home.grades.empty": "Δεν υπάρχουν ακόμη τάξεις.",
+
+  "home.instructions.title": "Οδηγίες χρήσης",
+  "home.instructions.body": "Χρησιμοποιήστε το μενού Σημειώσεις για να πλοηγηθείτε ανά τάξη και μάθημα. Δημιουργήστε λογαριασμό για να αγοράσετε επί πληρωμή μαθήματα.",
+
+  "home.more.title": "Περισσότερο υλικό από τον εκπαιδευτικό",
+  "home.more.body": "Επιπλέον υλικό θα εμφανιστεί εδώ.",
+
+  "home.communication.title": "Επικοινωνία",
+  "home.communication.lead": "Στείλτε μήνυμα μέσω της παρακάτω φόρμας (FormSubmit).",
+  "home.communication.emailLabel": "Email",
+  "home.communication.messageLabel": "Μήνυμα",
+  "home.communication.submit": "Αποστολή",
+
+  "search.placeholder": "Αναζήτηση…",
+  "search.loading": "Γίνεται αναζήτηση…",
+  "search.type.course": "Μάθημα",
+  "search.type.lesson": "Ενότητα",
+
+  "notes.empty": "Δεν υπάρχουν ακόμη τάξεις.",
+
+  "course.buy": "Αγορά μαθήματος",
+  "course.free": "Δωρεάν",
+  "course.loading": "Φόρτωση…",
+  "course.price.free": "Δωρεάν",
+  "course.price.paid": "€{price}",
+  "course.redirecting": "Γίνεται ανακατεύθυνση…",
+  "course.lessons.title": "Ενότητες",
+  "course.lessons.empty": "Δεν υπάρχουν ακόμη ενότητες.",
+
+  "lesson.viewPdf": "Προβολή PDF",
+  "lesson.loading": "Φόρτωση…",
+  "lesson.pdf.locked": "Αγοράστε το μάθημα για να δείτε το PDF.",
+
+  "admin.title": "Διαχείριση",
+  "admin.overview.title": "Επισκόπηση διαχείρισης",
+  "admin.overview.body": "Διαχείριση τάξεων, μαθημάτων, ενοτήτων και αγορών.",
+  "admin.grades.title": "Τάξεις",
+  "admin.grades.loading": "Φόρτωση…",
+  "admin.grades.empty": "Δεν υπάρχουν τάξεις. Δημιουργήστε τις μέσω API ή του πίνακα διαχείρισης.",
+  "admin.subjects.title": "Μαθήματα",
+  "admin.courses.title": "Κύκλοι μαθημάτων",
+  "admin.lessons.title": "Ενότητες",
+  "admin.uploads.title": "Ανεβάσματα",
+  "admin.uploads.body": "Ανεβάστε PDF στο Supabase Storage και συνδέστε τα με ενότητες.",
+  "admin.purchases.title": "Αγορές",
+
+  "auth.login.title": "Σύνδεση",
+  "auth.login.lead": "Ενσωμάτωση Auth.js: ρυθμίστε τον πάροχο.",
+  "auth.register.title": "Εγγραφή",
+  "auth.register.lead": "Ενσωμάτωση Auth.js: ρυθμίστε τον πάροχο.",
+  "auth.back": "Πίσω",
+
+  "dashboard.title": "Πίνακας ελέγχου",
+  "dashboard.body": "Τα αγορασμένα μαθήματά σας και η πρόοδός σας.",
+
+  "profile.title": "Προφίλ",
+  "profile.body": "Προτιμήσεις γλώσσας και θέματος.",
+
+  "about.title": "Σχετικά",
+  "about.heading": "Σχετικά",
+  "about.body": "Πληροφορίες για τον εκπαιδευτικό και την πλατφόρμα."
+}

@@ -1,75 +1,63 @@
-# Nuxt Minimal Starter
+# Mathe-Arxaia
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Modern educational platform (Nuxt 3, Vue 3, Tailwind, Supabase, Stripe, PDF.js).
+
+## Stack
+
+- **Framework:** Nuxt 3 / Nuxt 4, Vue 3 (Composition API, `<script setup>`)
+- **Styling:** Tailwind CSS, shadcn-vue–style components (Radix Vue + CVA)
+- **Animations:** GSAP (including ScrollTrigger)
+- **Backend:** Supabase (PostgreSQL + Storage)
+- **Auth:** Auth.js (configure when using Nuxt 3; Nuxt 4–compatible module TBD). Session stub at `/api/auth/session`.
+- **Payments:** Stripe Checkout + webhook
+- **PDF:** PDF.js in lesson viewer
+- **Contact:** FormSubmit (configure action URL in the Communication section)
+- **Deploy:** Vercel
 
 ## Setup
 
-Make sure to install dependencies:
+1. **Install**
+   ```bash
+   npm install
+   ```
 
-```bash
-# npm
-npm install
+2. **Environment**
+   - Copy `.env.example` to `.env`
+   - Set Supabase URL and keys (anon + service role)
+   - Set Stripe secret and webhook secret
+   - Set Auth secret when using Auth.js
 
-# pnpm
-pnpm install
+3. **Database**
+   - In Supabase SQL Editor, run `supabase/schema.sql` to create tables and RLS.
 
-# yarn
-yarn install
+4. **Supabase Storage**
+   - Create a bucket named `uploads` (or change `server/api/admin/upload.post.ts`) for PDF uploads.
 
-# bun
-bun install
-```
+5. **Run**
+   ```bash
+   npm run dev
+   ```
 
-## Development Server
+## Routes
 
-Start the development server on `http://localhost:3000`:
+- **Public:** `/`, `/grade/[grade]`, `/grade/[grade]/[subject]`, `/course/[id]`, `/lesson/[id]`, `/about`, `/login`, `/register`
+- **Authenticated:** `/dashboard`, `/profile`
+- **Admin:** `/admin`, `/admin/grades`, `/admin/subjects`, `/admin/courses`, `/admin/lessons`, `/admin/uploads`, `/admin/purchases`
 
-```bash
-# npm
-npm run dev
+Admin middleware is a placeholder (allows all). Wire Auth.js and set `event.context.auth` (e.g. `userId`, `role`) in server middleware so `/admin/*` and Stripe checkout require an admin or logged-in user.
 
-# pnpm
-pnpm dev
+## Stripe
 
-# yarn
-yarn dev
+- Checkout: `POST /api/stripe/checkout` with body `{ courseId }`. Requires auth context with `userId`.
+- Webhook: `POST /api/stripe/webhook`. Set `STRIPE_WEBHOOK_SECRET` and point Stripe to this URL.
 
-# bun
-bun run dev
-```
+## i18n & theme
 
-## Production
+- Locales: `public/locales/el.json`, `public/locales/en.json`. Use `useI18n().t(key)` and `setLocale('el'|'en')`.
+- Theme: `useTheme().toggle()` and `init()` in layout; light/dark stored in localStorage.
 
-Build the application for production:
+## Deploy (Vercel)
 
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- Connect repo; Vercel detects Nuxt.
+- Set env vars (Supabase, Stripe, Auth).
+- Configure Stripe webhook to `https://your-domain.com/api/stripe/webhook`.
