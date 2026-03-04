@@ -1,8 +1,9 @@
 import { Auth } from '@auth/core'
 import type { Session } from '@auth/core/types'
-import { authOptions } from './[...]'
+import { getAuthOptions } from './[...]'
 
 export default defineEventHandler(async (event) => {
+  const authOptions = getAuthOptions()
   const request = event.node.req
   const url = new URL('/api/auth/session', `https://${request.headers.host}`)
 
@@ -11,12 +12,7 @@ export default defineEventHandler(async (event) => {
     headers: request.headers as unknown as HeadersInit,
   })
 
-  const response = await Auth(authRequest, {
-    ...authOptions,
-    callbacks: {
-      ...authOptions.callbacks,
-    },
-  })
+  const response = await Auth(authRequest, authOptions)
 
   if (!response.ok) {
     return { user: null, session: null }

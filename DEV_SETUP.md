@@ -36,7 +36,10 @@ This installs Nuxt, Tailwind, GSAP, Supabase client, Stripe SDK, PDF.js, `oh-vue
      - `NUXT_STRIPE_WEBHOOK_SECRET` – signing secret for the `checkout.session.completed` webhook (see Stripe section).
 
    - **Auth**
-     - `NUXT_AUTH_SECRET` – any long random string for Auth.js (even before full Auth wiring).
+     - `NUXT_AUTH_SECRET` – the only env var required for the current Auth.js setup. It is used to sign JWTs and must be a long, random string. **How to acquire it:** generate one, e.g.:
+       - Terminal: `openssl rand -base64 32`
+       - Or Node: `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"`
+       - Use the output as the value (no quotes needed in `.env`).
 
 Nuxt reads these via `runtimeConfig` in `nuxt.config.ts`.
 
@@ -135,30 +138,14 @@ After this:
 
 ---
 
-### 5. Temporary auth/session for dev
+### 5. Auth (Auth.js)
 
-The long‑term plan is **Auth.js** with roles (`admin`, `student`). For now:
+Auth is implemented with **Auth.js** (`@auth/core`): JWT sessions, Credentials provider (email lookup from Supabase `users` table), and role-based access (`admin` / `student`).
 
-- There is a **session stub** at `server/api/auth/session.get.ts`.
-- `event.context.auth` is **not** set anywhere by default, so:
-  - Admin middleware (`app/middleware/admin.ts`) currently allows all.
-  - Stripe checkout expects `event.context.auth.userId`.
-
-To avoid auth blocking you in early dev, you have two options:
-
-1. **Simplest: leave it open for now**
-   - Keep `admin.ts` as is (allows everyone).
-   - For Stripe, temporarily patch `checkout.post.ts` to allow a hard‑coded `userId` (or remove the auth check) until Auth.js is wired.
-
-2. **Slightly better: add a dev‑only auth context**
-   - Create a Nitro plugin or middleware that sets:
-     ```ts
-     event.context.auth = { userId: '<some-user-id>', role: 'admin' }
-     ```
-   - Ensure that `<some-user-id>` exists in the `users` table.
-   - Then update `admin.ts` to check `role === 'admin'` and redirect if not.
-
-Once a Nuxt‑4‑compatible Auth.js integration is chosen, this stub can be replaced.
+- **Env:** Set `NUXT_AUTH_SECRET` (see section 2). No other auth-specific env vars are needed; user data comes from your existing Supabase `users` table.
+- **Endpoints:** `/api/auth/*` is handled by `server/api/auth/[...].ts`. Session is exposed at `GET /api/auth/session` (returns `{ user, session }` or `{ user: null, session: null }`).
+- **Middleware:** `guest-only` redirects authenticated users away from login/register; `admin` redirects non-admins away from `/admin` (and sub-routes).
+- **Pages:** Login and register use the Credentials flow; registration writes to `users` via `POST /api/auth/register`. For protected server routes that need the current user, call `getAuthOptions()` from `server/api/auth/[...].ts` and use Auth.js session helpers, or call `GET /api/auth/session` and rely on the returned `user`.
 
 ---
 

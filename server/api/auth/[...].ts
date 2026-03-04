@@ -8,8 +8,10 @@ type MatheUser = User & {
   role: "admin" | "student";
 };
 
-const authOptions: AuthConfig = {
-  secret: process.env.AUTH_SECRET,
+export function getAuthOptions(): AuthConfig {
+  const config = useRuntimeConfig()
+  return {
+  secret: config.authSecret as string,
   trustHost: true,
   session: {
     strategy: "jwt",
@@ -73,10 +75,10 @@ const authOptions: AuthConfig = {
     },
   },
 };
-
-export { authOptions };
+}
 
 export default defineEventHandler(async (event) => {
+  const authOptions = getAuthOptions();
   const request = event.node.req;
   const url = new URL(
     request.url ?? "",
