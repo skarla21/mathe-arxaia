@@ -27,6 +27,7 @@ alwaysApply: true
 19. Always check purchase table before unlocking content.
 20. Follow clean folder structure.
 21. Dont use emojis, use oh-vue-icons and animations.
+22. Never write hardcoded texts, use the translations file instead.
 
 Project philosophy:
 Minimal.

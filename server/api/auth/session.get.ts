@@ -1,10 +1,41 @@
-// Stub: replace with Auth.js when using a Nuxt 3–compatible auth module.
-// Set event.context.auth in a middleware from your auth solution.
-export default defineEventHandler((event) => {
-  const auth = event.context.auth as { userId?: string; role?: string } | undefined
-  if (!auth?.userId) return { user: null, session: null }
+import { Auth } from '@auth/core'
+import type { Session } from '@auth/core/types'
+import { authOptions } from './[...]'
+
+export default defineEventHandler(async (event) => {
+  const request = event.node.req
+  const url = new URL('/api/auth/session', `https://${request.headers.host}`)
+
+  const authRequest = new Request(url.toString(), {
+    method: 'GET',
+    headers: request.headers as unknown as HeadersInit,
+  })
+
+  const response = await Auth(authRequest, {
+    ...authOptions,
+    callbacks: {
+      ...authOptions.callbacks,
+    },
+  })
+
+  if (!response.ok) {
+    return { user: null, session: null }
+  }
+
+  const session = (await response.json()) as Session | null
+
+  if (!session?.user) {
+    return { user: null, session: null }
+  }
+
+  const user = session.user as Session['user'] & { id?: string; role?: string }
+
   return {
-    user: { id: auth.userId, role: auth.role ?? 'student' },
-    session: { user: { id: auth.userId, role: auth.role ?? 'student' } },
+    user: {
+      id: user.id ?? '',
+      role: (user.role as 'admin' | 'student') ?? 'student',
+      email: user.email,
+    },
+    session,
   }
 })

@@ -4,10 +4,10 @@ export default defineNuxtRouteMiddleware(async () => {
     credentials: 'include',
   }).catch(() => null)
 
-  const user = (authResponse as { user?: { role?: string } } | null)?.user
-  const role = user?.role ?? 'student'
+  const user = (authResponse as { user?: { id?: string } } | null)?.user
 
-  if (role !== 'admin') {
+  if (user?.id) {
     return navigateTo('/')
   }
 })
+

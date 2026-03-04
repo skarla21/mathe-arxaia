@@ -11,5 +11,21 @@
   "home.communication": "Επικοινωνία",
   "course.buy": "Αγορά μαθήματος",
   "course.free": "Δωρεάν",
-  "lesson.viewPdf": "Προβολή PDF"
+  "lesson.viewPdf": "Προβολή PDF",
+  "auth.login.title": "Σύνδεση",
+  "auth.login.subtitle": "Συνδέσου για να συνεχίσεις στα μαθήματά σου.",
+  "auth.login.email": "Email",
+  "auth.login.password": "Κωδικός πρόσβασης",
+  "auth.login.submit": "Σύνδεση",
+  "auth.login.submitting": "Γίνεται σύνδεση...",
+  "auth.login.error.generic": "Η σύνδεση δεν ήταν δυνατή",
+  "auth.back": "Πίσω",
+  "auth.register.title": "Εγγραφή",
+  "auth.register.subtitle": "Δημιούργησε λογαριασμό μαθητή για να ξεκινήσεις.",
+  "auth.register.email": "Email",
+  "auth.register.password": "Κωδικός πρόσβασης",
+  "auth.register.submit": "Εγγραφή",
+  "auth.register.submitting": "Γίνεται εγγραφή...",
+  "auth.register.success": "Ο λογαριασμός δημιουργήθηκε. Μπορείς τώρα να συνδεθείς.",
+  "auth.register.error.generic": "Η εγγραφή δεν ήταν δυνατή"
 }

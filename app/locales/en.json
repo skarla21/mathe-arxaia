@@ -11,5 +11,21 @@
   "home.communication": "Communication",
   "course.buy": "Buy Course",
   "course.free": "Free",
-  "lesson.viewPdf": "View PDF"
+  "lesson.viewPdf": "View PDF",
+  "auth.login.title": "Login",
+  "auth.login.subtitle": "Sign in to continue to your courses.",
+  "auth.login.email": "Email",
+  "auth.login.password": "Password",
+  "auth.login.submit": "Login",
+  "auth.login.submitting": "Logging in...",
+  "auth.login.error.generic": "Unable to login",
+  "auth.back": "Back",
+  "auth.register.title": "Register",
+  "auth.register.subtitle": "Create a student account to get started.",
+  "auth.register.email": "Email",
+  "auth.register.password": "Password",
+  "auth.register.submit": "Register",
+  "auth.register.submitting": "Registering...",
+  "auth.register.success": "Account created. You can now log in.",
+  "auth.register.error.generic": "Unable to register"
 }
