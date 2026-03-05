@@ -1,10 +1,11 @@
 import { serverSupabaseService } from '../../utils/supabaseServer'
+import { requireAdmin } from '../../utils/requireAdmin'
 
 const MAX_SIZE = 10 * 1024 * 1024 // 10MB
 const ALLOWED_TYPES = ['application/pdf']
 
 export default defineEventHandler(async (event) => {
-  // TODO: require admin session
+  requireAdmin(event)
   const formData = await readMultipartFormData(event)
   if (!formData?.length) {
     throw createError({ statusCode: 400, message: 'No file uploaded' })

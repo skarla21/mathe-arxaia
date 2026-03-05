@@ -1,80 +1,123 @@
 import { Auth } from "@auth/core";
 import type { AuthConfig, Session, User } from "@auth/core/types";
 import CredentialsProvider from "@auth/core/providers/credentials";
+import GoogleProvider from "@auth/core/providers/google";
 import { serverSupabaseService } from "../../utils/supabaseServer";
+import { verifyPassword } from "../../utils/password";
 
 type MatheUser = User & {
   id: string;
-  role: "admin" | "student";
+  isAdmin: boolean;
 };
 
 export function getAuthOptions(): AuthConfig {
-  const config = useRuntimeConfig()
+  const config = useRuntimeConfig();
+
   return {
-  secret: config.authSecret as string,
-  trustHost: true,
-  session: {
-    strategy: "jwt",
-  },
-  providers: [
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+    basePath: "/api/auth",
+    secret: config.authSecret as string,
+    trustHost: true,
+    session: {
+      strategy: "jwt",
+    },
+    providers: [
+      CredentialsProvider({
+        name: "Credentials",
+        credentials: {
+          email: { label: "Email", type: "text" },
+          password: { label: "Password", type: "password" },
+        },
+        async authorize(credentials) {
+          if (!credentials?.email || !credentials?.password) {
+            return null;
+          }
+
+          const supabase = serverSupabaseService();
+
+          const { data: userRow } = await supabase
+            .from("users")
+            .select('id, email, "isAdmin", password_hash')
+            .eq("email", String(credentials.email).toLowerCase())
+            .maybeSingle();
+
+          if (
+            !userRow ||
+            !(await verifyPassword(String(credentials.password), userRow.password_hash))
+          ) {
+            return null;
+          }
+
+          const user: MatheUser = {
+            id: userRow.id,
+            email: userRow.email ?? undefined,
+            isAdmin: !!userRow.isAdmin,
+          };
+
+          return user;
+        },
+      }),
+      GoogleProvider({
+        clientId: config.googleClientId as string,
+        clientSecret: config.googleClientSecret as string,
+      }),
+    ],
+    callbacks: {
+      async jwt({ token, user, account }) {
+        if (user) {
+          // Credentials login: MatheUser already has id + isAdmin
+          if ((user as MatheUser).id) {
+            token.id = (user as MatheUser).id;
+            token.isAdmin = (user as MatheUser).isAdmin;
+            return token;
+          }
+
+          // OAuth login: ensure user row exists in Supabase
+          if (account && account.provider !== "credentials" && user.email) {
+            const supabase = serverSupabaseService();
+            const email = String(user.email).toLowerCase();
+
+            const { data: existing } = await supabase
+              .from("users")
+              .select('id, "isAdmin"')
+              .eq("email", email)
+              .maybeSingle();
+
+            let dbUser = existing;
+
+            if (!dbUser) {
+              const { data: inserted } = await supabase
+                .from("users")
+                .insert({ email })
+                .select('id, "isAdmin"')
+                .single();
+
+              dbUser = inserted ?? null;
+            }
+
+            if (dbUser) {
+              token.id = dbUser.id;
+              token.isAdmin = !!dbUser.isAdmin;
+            }
+          }
+        }
+
+        return token;
       },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null;
-        }
-
-        const supabase = serverSupabaseService();
-
-        const { data: userRow } = await supabase
-          .from("users")
-          .select("id, email, role")
-          .eq("email", String(credentials.email).toLowerCase())
-          .single();
-
-        if (!userRow) {
-          return null;
-        }
-
-        // TODO: Add password verification once auth.users is wired
-        const user: MatheUser = {
-          id: userRow.id,
-          email: userRow.email ?? undefined,
-          role: (userRow.role as MatheUser["role"]) ?? "student",
+      async session({ session, token }) {
+        const s: Session = {
+          ...session,
+          user: session.user ?? {},
         };
 
-        return user;
+        if (s.user) {
+          (s.user as MatheUser).id = (token.id as string) ?? "";
+          (s.user as MatheUser).isAdmin = Boolean(token.isAdmin);
+        }
+
+        return s;
       },
-    }),
-  ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = (user as MatheUser).id;
-        token.role = (user as MatheUser).role;
-      }
-      return token;
     },
-    async session({ session, token }) {
-      const s: Session = {
-        ...session,
-        user: session.user ?? {},
-      };
-
-      if (s.user) {
-        (s.user as MatheUser).id = (token.id as string) ?? "";
-        (s.user as MatheUser).role =
-          (token.role as MatheUser["role"]) ?? "student";
-      }
-
-      return s;
-    },
-  },
-};
+  };
 }
 
 export default defineEventHandler(async (event) => {

@@ -47,10 +47,11 @@ onMounted(load);
   <div class="relative" @mouseenter="open = true" @mouseleave="open = false">
     <button
       type="button"
-      class="text-sm font-medium hover:underline underline-offset-4 flex items-center gap-1"
+      class="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:underline underline-offset-4 transition-colors"
     >
+      <VIcon name="bi-journal-text" class="size-4" aria-hidden="true" />
       {{ t("nav.notes") }}
-      <VIcon name="bi-chevron-down" class="text-muted-foreground" />
+      <VIcon name="bi-chevron-down" class="size-3.5 text-muted-foreground" aria-hidden="true" />
     </button>
     <Transition
       enter-active-class="transition ease-out duration-200"

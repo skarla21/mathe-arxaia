@@ -2,12 +2,12 @@ import type { Session, User } from "@auth/core/types";
 
 declare module "@auth/core/types" {
   interface Session {
-    user?: (User & { id?: string; role?: "admin" | "student" }) | null;
+    user?: (User & { id?: string; isAdmin?: boolean }) | null;
   }
 
   interface User {
     id?: string;
-    role?: "admin" | "student";
+    isAdmin?: boolean;
   }
 }
 

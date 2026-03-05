@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "@auth/core": "^0.37.2",
     "@supabase/supabase-js": "^2.98.0",
     "class-variance-authority": "^0.7.1",

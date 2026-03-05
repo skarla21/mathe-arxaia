@@ -11,4 +11,3 @@ addIcons(BiSunFill, BiMoonFill, BiChevronDown, BiSearch)
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component('VIcon', OhVueIcon)
 })
-

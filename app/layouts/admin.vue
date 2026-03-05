@@ -1,22 +1,24 @@
 <script setup lang="ts">
 import { NuxtLink } from '#components'
 
-const links = [
-  { to: '/admin', label: 'Overview' },
-  { to: '/admin/grades', label: 'Grades' },
-  { to: '/admin/subjects', label: 'Subjects' },
-  { to: '/admin/courses', label: 'Courses' },
-  { to: '/admin/lessons', label: 'Lessons' },
-  { to: '/admin/uploads', label: 'Uploads' },
-  { to: '/admin/purchases', label: 'Purchases' },
-]
+const { t } = useI18n()
+
+const links = computed(() => [
+  { to: '/admin', label: t('admin.overview') },
+  { to: '/admin/grades', label: t('admin.grades') },
+  { to: '/admin/subjects', label: t('admin.subjects') },
+  { to: '/admin/courses', label: t('admin.courses') },
+  { to: '/admin/lessons', label: t('admin.lessons') },
+  { to: '/admin/uploads', label: t('admin.uploads') },
+  { to: '/admin/purchases', label: t('admin.purchases') },
+])
 </script>
 
 <template>
   <div class="min-h-screen bg-muted/30 flex">
     <aside class="w-56 border-r bg-card shrink-0 flex flex-col">
       <div class="p-4 border-b">
-        <NuxtLink to="/admin" class="font-semibold text-lg">Admin</NuxtLink>
+        <NuxtLink to="/admin" class="font-semibold text-lg">{{ t('admin.nav') }}</NuxtLink>
       </div>
       <nav class="p-2 flex-1">
         <NuxtLink
@@ -31,7 +33,7 @@ const links = [
       </nav>
       <div class="p-2 border-t">
         <NuxtLink to="/" class="block px-3 py-2 rounded-md text-sm hover:bg-accent">
-          Back to site
+          {{ t('admin.backToSite') }}
         </NuxtLink>
       </div>
     </aside>

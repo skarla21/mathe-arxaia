@@ -140,12 +140,22 @@ After this:
 
 ### 5. Auth (Auth.js)
 
-Auth is implemented with **Auth.js** (`@auth/core`): JWT sessions, Credentials provider (email lookup from Supabase `users` table), and role-based access (`admin` / `student`).
+Auth is implemented with **Auth.js** (`@auth/core`): JWT sessions, Credentials provider (email/password with hashing in Supabase `users` table), and Google OAuth. Authorization is based on a simple boolean flag (`"isAdmin"` column) rather than roles.
 
-- **Env:** Set `NUXT_AUTH_SECRET` (see section 2). No other auth-specific env vars are needed; user data comes from your existing Supabase `users` table.
+- **Env:**
+  - `NUXT_AUTH_SECRET` – used to sign JWTs (see section 2).
+  - `NUXT_GOOGLE_CLIENT_ID` / `NUXT_GOOGLE_CLIENT_SECRET` – credentials for Google OAuth.
+- **Database (`users` table):**
+  - `id uuid primary key default gen_random_uuid()`
+  - `email text`
+  - `"isAdmin" boolean not null default false` – set to `true` manually in Supabase for admin users.
+  - `password_hash text` – stores a bcrypt hash of the password (never plain text).
 - **Endpoints:** `/api/auth/*` is handled by `server/api/auth/[...].ts`. Session is exposed at `GET /api/auth/session` (returns `{ user, session }` or `{ user: null, session: null }`).
-- **Middleware:** `guest-only` redirects authenticated users away from login/register; `admin` redirects non-admins away from `/admin` (and sub-routes).
-- **Pages:** Login and register use the Credentials flow; registration writes to `users` via `POST /api/auth/register`. For protected server routes that need the current user, call `getAuthOptions()` from `server/api/auth/[...].ts` and use Auth.js session helpers, or call `GET /api/auth/session` and rely on the returned `user`.
+- **Middleware:** `guest-only` redirects authenticated users away from login/register; `admin` redirects non-admins away from `/admin` (and sub-routes) using the `isAdmin` flag.
+- **Pages:**
+  - Login uses the Credentials flow (email + password) and offers a Google OAuth button.
+  - Register writes a new row in `users` with a hashed password via `POST /api/auth/register`.
+  - For protected server routes that need the current user, call `getAuthOptions()` from `server/api/auth/[...].ts` and use Auth.js helpers, or call `GET /api/auth/session` and rely on the returned `user` (which includes `id`, `email`, and `isAdmin`).
 
 ---
 

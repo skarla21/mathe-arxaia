@@ -1,15 +1,16 @@
 -- Run this in Supabase SQL Editor to create tables and RLS.
 
--- Users (sync with Auth; id = auth.uid())
+-- Users
 create table if not exists public.users (
-  id uuid primary key references auth.users(id) on delete cascade,
+  id uuid primary key default gen_random_uuid(),
   email text,
-  role text not null default 'student' check (role in ('admin', 'student')),
+  "isAdmin" boolean not null default false,
+  password_hash text,
   created_at timestamptz not null default now()
 );
 
 create index if not exists users_email_idx on public.users(email);
-create index if not exists users_role_idx on public.users(role);
+
 
 -- Grades
 create table if not exists public.grades (
@@ -45,19 +46,20 @@ create index if not exists courses_grade_id_idx on public.courses(grade_id);
 create index if not exists courses_subject_id_idx on public.courses(subject_id);
 create index if not exists courses_title_idx on public.courses(title);
 
--- Lessons
 create table if not exists public.lessons (
   id uuid primary key default gen_random_uuid(),
-  course_id uuid not null references public.courses(id) on delete cascade,
+  course_id uuid references public.courses(id) on delete cascade,
   title text not null,
   content text,
   is_free boolean not null default true,
   pdf_url text,
+  category text,
   created_at timestamptz not null default now()
 );
 
 create index if not exists lessons_course_id_idx on public.lessons(course_id);
 create index if not exists lessons_title_idx on public.lessons(title);
+create index if not exists lessons_category_idx on public.lessons(category);
 
 -- Purchases
 create table if not exists public.purchases (

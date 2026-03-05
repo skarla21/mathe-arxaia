@@ -1,4 +1,5 @@
 import { serverSupabaseService } from '../../utils/supabaseServer'
+import { hashPassword } from '../../utils/password'
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<{ email?: string; password?: string }>(event)
@@ -16,11 +17,13 @@ export default defineEventHandler(async (event) => {
     return { error: 'Email already registered' }
   }
 
+  const passwordHash = await hashPassword(body.password)
+
   const { data, error } = await supabase
     .from('users')
     .insert({
       email,
-      role: 'student',
+      password_hash: passwordHash,
     })
     .select('id')
     .single()

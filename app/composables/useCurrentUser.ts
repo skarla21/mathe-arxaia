@@ -1,6 +1,6 @@
 export function useCurrentUser() {
   const session = useState<{
-    user: { id: string; role: 'admin' | 'student'; email?: string | null } | null
+    user: { id: string; email?: string | null; isAdmin: boolean } | null
   }>('current-user-session', () => ({ user: null }))
 
   const fetchSession = async () => {
@@ -12,12 +12,12 @@ export function useCurrentUser() {
     session.value.user = (result as any)?.user ?? null
   }
 
-  if (process.client && session.value.user === null) {
+  if (import.meta.client && session.value.user === null) {
     fetchSession()
   }
 
-  const isAdmin = computed(() => session.value.user?.role === 'admin')
-  const isStudent = computed(() => session.value.user?.role === 'student')
+  const isAdmin = computed(() => session.value.user?.isAdmin === true)
+  const isStudent = computed(() => !!session.value.user && !session.value.user.isAdmin)
 
   return {
     session,

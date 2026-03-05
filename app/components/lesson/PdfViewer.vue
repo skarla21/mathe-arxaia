@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import UiButton from '~/components/ui/Button.vue'
 
+const { t } = useI18n()
 const props = defineProps<{ src: string }>()
 
 const container = ref<HTMLElement | null>(null)
@@ -64,13 +65,13 @@ onUnmounted(() => { pdfDoc = null })
 <template>
   <div class="border rounded-lg overflow-hidden bg-muted/30">
     <div class="flex items-center gap-2 p-2 border-b bg-card">
-      <UiButton variant="outline" size="sm" :disabled="pageNum <= 1" @click="prev">Prev</UiButton>
+      <UiButton variant="outline" size="sm" :disabled="pageNum <= 1" @click="prev">{{ t('pdf.prev') }}</UiButton>
       <span class="text-sm text-muted-foreground">{{ pageNum }} / {{ totalPages }}</span>
-      <UiButton variant="outline" size="sm" :disabled="pageNum >= totalPages" @click="next">Next</UiButton>
+      <UiButton variant="outline" size="sm" :disabled="pageNum >= totalPages" @click="next">{{ t('pdf.next') }}</UiButton>
       <UiButton variant="ghost" size="sm" @click="scale = Math.max(0.5, scale - 0.2)">−</UiButton>
       <UiButton variant="ghost" size="sm" @click="scale = Math.min(2, scale + 0.2)">+</UiButton>
     </div>
-    <div v-if="loading" class="p-8 text-center text-muted-foreground">Loading PDF…</div>
+    <div v-if="loading" class="p-8 text-center text-muted-foreground">{{ t('pdf.loading') }}</div>
     <div ref="container" class="flex justify-center p-4 min-h-[400px]" />
   </div>
 </template>

@@ -24,12 +24,12 @@ export default defineEventHandler(async (event) => {
     return { user: null, session: null }
   }
 
-  const user = session.user as Session['user'] & { id?: string; role?: string }
+  const user = session.user as Session['user'] & { id?: string; isAdmin?: boolean }
 
   return {
     user: {
       id: user.id ?? '',
-      role: (user.role as 'admin' | 'student') ?? 'student',
+      isAdmin: user.isAdmin ?? false,
       email: user.email,
     },
     session,

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'admin', middleware: 'admin' })
-useHead({ title: 'Admin - Subjects' })
+const { t } = useI18n()
+useHead(() => ({ title: `${t('admin.nav')} - ${t('admin.subjectsTitle')}` }))
 
 const subjects = ref<any[]>([])
 
@@ -15,7 +16,7 @@ onMounted(async () => {
 
 <template>
   <div>
-    <h1 class="text-2xl font-bold">Subjects</h1>
+    <h1 class="text-2xl font-bold">{{ t('admin.subjectsTitle') }}</h1>
     <ul class="mt-4 space-y-2">
       <li v-for="s in subjects" :key="s.id" class="p-2 rounded border">{{ s.name }} (grade: {{ s.grade_id }})</li>
     </ul>

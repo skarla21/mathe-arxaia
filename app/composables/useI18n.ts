@@ -1,28 +1,33 @@
+import el from '~/locales/el.json'
+import en from '~/locales/en.json'
+
 const STORAGE_KEY = 'mathe-arxaia-lang'
 
 type Locale = 'el' | 'en'
 
-const messages: Record<Locale, Record<string, string>> = {
-  el: {},
-  en: {},
+type Messages = Record<string, unknown>
+
+const messages: Record<Locale, Messages> = {
+  el: el as Messages,
+  en: en as Messages,
 }
 
-const currentLocale = useState<Locale>('i18n-locale', () => 'el')
+function getNested(obj: Messages, path: string): string | undefined {
+  const value = path.split('.').reduce((o: unknown, k) => (o as Messages)?.[k], obj)
+  return typeof value === 'string' ? value : undefined
+}
 
 export function useI18n() {
-  async function loadLocale(locale: Locale) {
-    if (Object.keys(messages[locale]).length > 0) return
-    try {
-      const data = await $fetch<Record<string, string>>(`/locales/${locale}.json`)
-      messages[locale] = data ?? {}
-    } catch {
-      messages[locale] = {}
-    }
-  }
+  const currentLocale = useState<Locale>('i18n-locale', () => 'el')
 
-  function t(key: string): string {
-    const msg = messages[currentLocale.value][key]
-    return msg ?? key
+  function t(key: string, params?: Record<string, string | number>): string {
+    let out = getNested(messages[currentLocale.value], key) ?? key
+    if (params) {
+      for (const [k, v] of Object.entries(params)) {
+        out = out.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v))
+      }
+    }
+    return out
   }
 
   function setLocale(locale: Locale) {
@@ -37,8 +42,7 @@ export function useI18n() {
       const stored = localStorage.getItem(STORAGE_KEY) as Locale | null
       if (stored === 'el' || stored === 'en') currentLocale.value = stored
     }
-    loadLocale(currentLocale.value)
   }
 
-  return { t, locale: readonly(currentLocale), setLocale, init, loadLocale }
+  return { t, locale: readonly(currentLocale), setLocale, init }
 }

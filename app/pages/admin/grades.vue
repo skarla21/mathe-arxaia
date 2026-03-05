@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'admin', middleware: 'admin' })
-useHead({ title: 'Admin - Grades' })
+const { t } = useI18n()
+useHead(() => ({ title: `${t('admin.nav')} - ${t('admin.gradesTitle')}` }))
 
 const grades = ref<any[]>([])
 const loading = ref(true)
@@ -21,13 +22,13 @@ onMounted(fetchGrades)
 
 <template>
   <div>
-    <h1 class="text-2xl font-bold">Grades</h1>
-    <p v-if="loading" class="mt-4 text-muted-foreground">Loading...</p>
+    <h1 class="text-2xl font-bold">{{ t('admin.gradesTitle') }}</h1>
+    <p v-if="loading" class="mt-4 text-muted-foreground">{{ t('admin.gradesLoading') }}</p>
     <ul v-else class="mt-4 space-y-2">
       <li v-for="g in grades" :key="g.id" class="flex items-center gap-4 p-2 rounded border">
         {{ g.name }} (order: {{ g.order }})
       </li>
     </ul>
-    <p v-if="!loading && grades.length === 0" class="mt-4 text-muted-foreground">No grades. Create them via API or admin CRUD.</p>
+    <p v-if="!loading && grades.length === 0" class="mt-4 text-muted-foreground">{{ t('admin.gradesEmpty') }}</p>
   </div>
 </template>

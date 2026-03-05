@@ -17,6 +17,10 @@ const password = ref('')
 const loading = ref(false)
 const error = ref<string | null>(null)
 
+const onGoogleLogin = () => {
+  window.location.href = '/api/auth/signin/google'
+}
+
 const onSubmit = async () => {
   loading.value = true
   error.value = null
@@ -93,6 +97,12 @@ const onSubmit = async () => {
         </span>
       </UiButton>
     </form>
+
+    <div class="mt-4">
+      <UiButton type="button" variant="outline" class="w-full" @click="onGoogleLogin">
+        {{ t('auth.login.google') }}
+      </UiButton>
+    </div>
 
     <NuxtLink to="/" class="mt-4 inline-block text-primary hover:underline">
       ← {{ t('auth.back') }}

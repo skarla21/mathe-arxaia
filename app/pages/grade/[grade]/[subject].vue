@@ -2,6 +2,7 @@
 const route = useRoute()
 const gradeId = route.params.grade as string
 const subjectId = route.params.subject as string
+const { t } = useI18n()
 
 const grade = ref<{ id: string; name: string } | null>(null)
 const subject = ref<{ id: string; name: string; grade_id: string } | null>(null)
@@ -15,13 +16,13 @@ grade.value = (gradesData.value as any[])?.find((g: any) => g.id === gradeId) ??
 subject.value = (subjectsData.value as any[])?.find((s: any) => s.id === subjectId) ?? null
 courses.value = (coursesData.value as any[]) ?? []
 
-useHead({ title: () => (subject.value ? `${subject.value.name} - ${grade?.name}` : 'Subject') })
+useHead(() => ({ title: subject.value ? `${subject.value.name} - ${grade?.name}` : t('subject.title') }))
 </script>
 
 <template>
   <div class="container py-8 px-4">
     <NuxtLink :to="`/grade/${gradeId}`" class="text-sm text-muted-foreground hover:underline">← {{ grade?.name }}</NuxtLink>
-    <h1 class="text-3xl font-bold mt-2">{{ subject?.name ?? 'Subject' }}</h1>
+    <h1 class="text-3xl font-bold mt-2">{{ subject?.name ?? t('subject.title') }}</h1>
     <div class="mt-8 grid gap-4 sm:grid-cols-2">
       <NuxtLink
         v-for="c in courses"
@@ -30,9 +31,9 @@ useHead({ title: () => (subject.value ? `${subject.value.name} - ${grade?.name}`
         class="block p-4 rounded-lg border bg-card hover:border-primary/50"
       >
         <span class="font-medium">{{ c.title }}</span>
-        <span class="text-muted-foreground text-sm ml-2">{{ c.is_free ? 'Free' : `€${((c.price || 0) / 100).toFixed(2)}` }}</span>
+        <span class="text-muted-foreground text-sm ml-2">{{ c.is_free ? t('subject.free') : `€${((c.price || 0) / 100).toFixed(2)}` }}</span>
       </NuxtLink>
     </div>
-    <p v-if="courses.length === 0" class="text-muted-foreground">No courses in this subject yet.</p>
+    <p v-if="courses.length === 0" class="text-muted-foreground">{{ t('subject.noCoursesYet') }}</p>
   </div>
 </template>
