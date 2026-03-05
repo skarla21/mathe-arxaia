@@ -10,11 +10,18 @@ const { t } = useI18n();
 
 <template>
   <header
-    class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+    class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
   >
     <div class="container flex h-14 items-center gap-4 px-4">
-      <NuxtLink to="/" class="flex items-center gap-2 font-semibold shrink-0 text-foreground hover:opacity-90 transition-opacity">
-        <VIcon name="bi-journal-bookmark-fill" class="size-6 text-primary" aria-hidden="true" />
+      <NuxtLink
+        to="/"
+        class="flex items-center gap-2 font-semibold shrink-0 text-foreground hover:opacity-90 transition-opacity"
+      >
+        <VIcon
+          name="bi-journal-bookmark-fill"
+          class="size-6 text-primary"
+          aria-hidden="true"
+        />
         <span>{{ t("brand.logo") }}</span>
       </NuxtLink>
       <nav class="hidden md:flex items-center gap-6 flex-1 justify-center">

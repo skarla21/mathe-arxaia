@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import UiCard from '~/components/ui/Card.vue'
+import UiCardContent from '~/components/ui/CardContent.vue'
+
 const route = useRoute()
 const gradeId = route.params.grade as string
 const subjectId = route.params.subject as string
@@ -28,10 +31,14 @@ useHead(() => ({ title: subject.value ? `${subject.value.name} - ${grade?.name}`
         v-for="c in courses"
         :key="c.id"
         :to="`/course/${c.id}`"
-        class="block p-4 rounded-lg border bg-card hover:border-primary/50"
+        class="block"
       >
-        <span class="font-medium">{{ c.title }}</span>
-        <span class="text-muted-foreground text-sm ml-2">{{ c.is_free ? t('subject.free') : `€${((c.price || 0) / 100).toFixed(2)}` }}</span>
+        <UiCard class="p-4 transition-colors hover:border-primary/50">
+          <UiCardContent class="p-0">
+            <span class="font-medium">{{ c.title }}</span>
+            <span class="text-muted-foreground text-sm ml-2">{{ c.is_free ? t('subject.free') : `€${((c.price || 0) / 100).toFixed(2)}` }}</span>
+          </UiCardContent>
+        </UiCard>
       </NuxtLink>
     </div>
     <p v-if="courses.length === 0" class="text-muted-foreground">{{ t('subject.noCoursesYet') }}</p>

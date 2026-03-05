@@ -7,6 +7,7 @@ import UiCardTitle from "~/components/ui/CardTitle.vue";
 import UiCardContent from "~/components/ui/CardContent.vue";
 import UiInput from "~/components/ui/Input.vue";
 import UiTextarea from "~/components/ui/Textarea.vue";
+import UiLabel from "~/components/ui/Label.vue";
 
 const { t } = useI18n();
 
@@ -25,10 +26,14 @@ const sections = computed(() =>
 
 const grades = ref<{ id: string; name: string; order: number }[]>([]);
 const activeSection = ref<string>("welcome");
+const scrollContainerRef = ref<HTMLElement | null>(null);
 
 function scrollTo(id: string) {
+  const container = scrollContainerRef.value;
   const el = document.getElementById(id);
-  el?.scrollIntoView({ behavior: "smooth" });
+  if (!container || !el) return;
+  const targetTop = el.offsetTop;
+  container.scrollTo({ top: targetTop, behavior: "smooth" });
 }
 
 onMounted(async () => {
@@ -49,25 +54,34 @@ onMounted(async () => {
       animateHero("#hero-title", "#hero-lead", "#hero-cta");
     });
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const intersecting = entries.filter((e) => e.isIntersecting);
-        if (intersecting.length === 0) return;
-        const topmost = intersecting.reduce((a, b) =>
-          (a.target as HTMLElement).getBoundingClientRect().top <
-          (b.target as HTMLElement).getBoundingClientRect().top
-            ? a
-            : b
-        );
-        activeSection.value = topmost.target.id;
-      },
-      { rootMargin: "-15% 0px -60% 0px", threshold: 0 }
-    );
     nextTick(() => {
+      const container = scrollContainerRef.value;
+      if (!container) return;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const intersecting = entries.filter((e) => e.isIntersecting);
+          if (intersecting.length === 0) return;
+          const topmost = intersecting.reduce((a, b) =>
+            (a.target as HTMLElement).getBoundingClientRect().top <
+            (b.target as HTMLElement).getBoundingClientRect().top
+              ? a
+              : b
+          );
+          activeSection.value = topmost.target.id;
+        },
+        { root: container, rootMargin: "-15% 0px -60% 0px", threshold: 0 }
+      );
       sections.value.forEach((s) => {
         const el = document.getElementById(s.id);
         if (el) observer.observe(el);
       });
+    });
+
+    const route = useRoute();
+    nextTick(() => {
+      if (route.path === "/" && (route.hash === "#welcome" || !route.hash)) {
+        scrollTo("welcome");
+      }
     });
   }
 });
@@ -83,16 +97,17 @@ function onNavClick(id: string, ev: MouseEvent) {
 </script>
 
 <template>
-  <div class="flex min-h-[calc(100vh-3.5rem)]">
+  <div class="flex min-h-[calc(100vh-3.5rem)] max-h-[calc(100vh-3.5rem)]">
     <nav
       class="sticky top-14 self-start w-52 border-r border-border/50 p-4 shrink-0 hidden lg:block bg-background"
     >
       <ul class="space-y-1">
         <li v-for="s in sections" :key="s.id">
-          <button
+          <UiButton
             type="button"
+            variant="ghost"
             :class="[
-              'w-full text-left px-3 py-2.5 rounded-xl text-sm transition-all duration-200 flex items-center gap-2',
+              'w-full justify-start px-3 py-2.5 rounded-xl text-sm transition-all duration-200',
               activeSection === s.id
                 ? 'bg-accent font-medium border-l-2 border-l-primary pl-[10px] -ml-px'
                 : 'hover:bg-accent/70 border-l-2 border-l-transparent',
@@ -101,11 +116,11 @@ function onNavClick(id: string, ev: MouseEvent) {
           >
             <VIcon :name="s.icon" class="size-4 shrink-0 text-primary" data-icon aria-hidden="true" />
             {{ s.label }}
-          </button>
+          </UiButton>
         </li>
       </ul>
     </nav>
-    <div class="flex-1 overflow-auto">
+    <div ref="scrollContainerRef" class="flex-1 overflow-auto">
       <section
         id="welcome"
         class="container max-w-5xl py-24 px-4 md:px-6 bg-linear-to-b from-muted/40 to-transparent border-b border-border/50"
@@ -282,10 +297,10 @@ function onNavClick(id: string, ev: MouseEvent) {
           <input type="hidden" name="_subject" :value="t('home.communication.emailSubject')" />
           <input type="text" name="_honey" style="display: none" />
           <div>
-            <label class="flex items-center gap-2 text-sm font-medium mb-1.5">
+            <UiLabel class="flex items-center gap-2 mb-1.5">
               <VIcon name="bi-envelope" class="size-4 text-muted-foreground" aria-hidden="true" />
               {{ t("home.communication.emailLabel") }}
-            </label>
+            </UiLabel>
             <UiInput
               type="email"
               name="_replyto"
@@ -294,10 +309,10 @@ function onNavClick(id: string, ev: MouseEvent) {
             />
           </div>
           <div>
-            <label class="flex items-center gap-2 text-sm font-medium mb-1.5">
+            <UiLabel class="flex items-center gap-2 mb-1.5">
               <VIcon name="bi-chat-text" class="size-4 text-muted-foreground" aria-hidden="true" />
               {{ t("home.communication.messageLabel") }}
-            </label>
+            </UiLabel>
             <UiTextarea name="message" :rows="4" required />
           </div>
           <UiButton type="submit" class="rounded-xl">

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import UiButton from '~/components/ui/Button.vue'
+import UiInput from '~/components/ui/Input.vue'
+import UiLabel from '~/components/ui/Label.vue'
 
 definePageMeta({
   // Cast so TS plugin doesn't need to know about every named middleware
@@ -56,33 +58,16 @@ const onSubmit = async () => {
 
     <form class="mt-6 space-y-4" @submit.prevent="onSubmit">
       <div class="space-y-2">
-        <label class="text-sm font-medium" for="email">
-          {{ t('auth.register.email') }}
-        </label>
-        <input
-          id="email"
-          v-model="email"
-          type="email"
-          required
-          class="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none ring-0 focus-visible:border-primary"
-        />
+        <UiLabel for="email">{{ t('auth.register.email') }}</UiLabel>
+        <UiInput id="email" v-model="email" type="email" required />
       </div>
 
       <div class="space-y-2">
-        <label class="text-sm font-medium" for="password">
-          {{ t('auth.register.password') }}
-        </label>
-        <input
-          id="password"
-          v-model="password"
-          type="password"
-          required
-          minlength="6"
-          class="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none ring-0 focus-visible:border-primary"
-        />
+        <UiLabel for="password">{{ t('auth.register.password') }}</UiLabel>
+        <UiInput id="password" v-model="password" type="password" required minlength="6" />
       </div>
 
-      <p v-if="error" class="text-sm text-red-500">
+      <p v-if="error" class="text-sm text-destructive">
         {{ error }}
       </p>
       <p v-else-if="success" class="text-sm text-emerald-600">
