@@ -19,6 +19,7 @@ import {
   BiHouseDoor,
   BiJournalText,
   BiJournalBookmark,
+  BiArrowRight,
 } from 'oh-vue-icons/icons/bi'
 
 addIcons(
@@ -41,6 +42,7 @@ addIcons(
   BiHouseDoor,
   BiJournalText,
   BiJournalBookmark,
+  BiArrowRight,
 )
 
 export default defineNuxtPlugin((nuxtApp) => {

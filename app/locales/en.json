@@ -19,16 +19,19 @@
       "communication": "Communication"
     },
     "welcome": {
-      "title": "Welcome",
-      "lead": "Prepare for Ancient Greek exams with structured notes and lessons. Pick your grade below and start exploring.",
-      "cta": "See grades"
+      "badge": "Master Ancient Greek Exams",
+      "title": "Prepare for Ancient Greek exams with structured notes and lessons.",
+      "lead": "The ultimate platform for Greek high school students. Step-by-step guidance, curated notes, and interactive practice to help you ace your exams.",
+      "cta": "Explore Courses",
+      "ctaSecondary": "View Free Notes"
     },
     "info": {
       "title": "Information",
       "body": "Here is what you need to know about the platform.",
       "bullet1": "Structured notes for each grade, made for exam preparation.",
       "bullet2": "Step-by-step lessons you can follow at your own pace.",
-      "bullet3": "Clear layout so you can find topics quickly."
+      "bullet3": "Clear layout so you can find topics quickly.",
+      "extra": "All content is organized by grade and subject, so you can focus on what matters for your exams."
     },
     "grades": {
       "title": "Grades",
@@ -141,6 +144,18 @@
   "notes": {
     "empty": "No notes available."
   },
+  "footer": {
+    "brand": "Mathe Paidi Mou Arxaia",
+    "tagline": "Structured notes and lessons for Ancient Greek exam preparation.",
+    "nav": "Navigation",
+    "resources": "Resources",
+    "contact": "Contact",
+    "contactText": "Questions or feedback? We are here to help.",
+    "contactLink": "Send a message",
+    "copyright": "All rights reserved.",
+    "privacy": "About",
+    "terms": "Contact"
+  },
   "auth": {
     "login": {
       "title": "Login",
@@ -152,12 +167,16 @@
       "error": {
         "generic": "Unable to login"
       },
-      "google": "Sign in with Google"
+      "google": "Sign in with Google",
+      "success": "Signed in",
+      "noAccount": "Don't have an account?",
+      "registerLink": "Register"
     },
     "back": "Back",
     "register": {
       "title": "Register",
       "subtitle": "Create a student account to get started.",
+      "google": "Sign up with Google",
       "email": "Email",
       "password": "Password",
       "submit": "Register",
@@ -165,7 +184,9 @@
       "success": "Account created. You can now log in.",
       "error": {
         "generic": "Unable to register"
-      }
+      },
+      "hasAccount": "Already have an account?",
+      "loginLink": "Login"
     }
   }
 }

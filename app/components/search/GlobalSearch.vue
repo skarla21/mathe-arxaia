@@ -67,7 +67,7 @@ const placeholder = computed(() => t('search.placeholder'))
           v-model="query"
           type="search"
           :placeholder="placeholder"
-          class="h-9 pl-8 w-full"
+          class="h-9 pl-8 w-full placeholder:font-heading"
           @focus="onFocus"
         />
         <VIcon
